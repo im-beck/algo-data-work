@@ -2,7 +2,22 @@ package Queues;
 
 public class Main {
     public static void main(String[] args) {
-        QueueArray queueArray = new QueueArray(5);
+        AnimalQueue shelter = new AnimalQueue();
+
+        Dog dog1 = new Dog("Dog1");
+        Cat cat1 = new Cat("Cat1");
+        Dog dog2 = new Dog("Dog2");
+        Cat cat2 = new Cat("Cat2");
+
+        shelter.enqueue(dog1);
+        shelter.enqueue(cat1);
+        shelter.enqueue(dog2);
+        shelter.enqueue(cat2);
+
+        System.out.println("Dequeued any: " + shelter.dequeueAny().name); // Should dequeue dog1
+        System.out.println("Dequeued dog: " + shelter.dequeueDog().name); // Should dequeue dog2
+        System.out.println("Dequeued cat: " + shelter.dequeueCat().name); // Should dequeue cat1
+        System.out.println("Dequeued any: " + shelter.dequeueAny().name); // Should dequeue cat2
     }
 
 
