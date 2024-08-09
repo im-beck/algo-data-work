@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .node {
+            padding: 5px;
+            border: 1px solid black;
+            margin: 2px;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+        }
+        .children {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .left, .right {
+            margin: 0 20px;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Numbers</title>
+    <script>
+        async function submitNumbers(event) {
+            event.preventDefault();
+            const numbers = document.getElementById('numbers').value;
+            try {
+                const response = await fetch('/process-numbers', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'numbers=' + encodeURIComponent(numbers),
+                });
+                const data = await response.json();
+                document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Error processing numbers:', error);
+            }
+        }
+
+        async function showPrevious() {
+            try {
+                const response = await fetch('/previous-trees');
+                const data = await response.json();
+                document.getElementById('previous-trees').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('Error fetching previous trees:', error);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Enter Numbers</h1>
+    <form onsubmit="submitNumbers(event)">
+        <label for="numbers">Numbers (comma-separated):</label>
+        <input type="text" id="numbers" name="numbers" required>
+        <button type="submit">Submit</button>
+    </form>
+    <button onclick="showPrevious()">Show Previous</button>
+    <pre id="result"></pre>
+    <pre id="previous-trees"></pre>
+</body>
+</html>
+

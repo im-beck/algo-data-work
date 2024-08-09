@@ -4,11 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.JoinColumn;
-import java.util.List;
 
 @Entity
 public class TreeRecord {
@@ -16,22 +11,14 @@ public class TreeRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @ElementCollection
-    private List<Integer> numbers;
-    
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "root_id")
-    private TreeNode root;
 
+    private String numbers; // Comma-separated list of numbers
+    private String treeStructure; // JSON representation of the tree
+
+    // Constructors
     public TreeRecord() {}
 
-    public TreeRecord(List<Integer> numbers, TreeNode root) {
-        this.numbers = numbers;
-        this.root = root;
-    }
-
-    // Getters and Setters
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -40,20 +27,19 @@ public class TreeRecord {
         this.id = id;
     }
 
-    public List<Integer> getNumbers() {
+    public String getNumbers() {
         return numbers;
     }
 
-    public void setNumbers(List<Integer> numbers) {
+    public void setNumbers(String numbers) {
         this.numbers = numbers;
     }
 
-    public TreeNode getRoot() {
-        return root;
+    public String getTreeStructure() {
+        return treeStructure;
     }
 
-    public void setRoot(TreeNode root) {
-        this.root = root;
+    public void setTreeStructure(String treeStructure) {
+        this.treeStructure = treeStructure;
     }
 }
-

@@ -1,45 +1,23 @@
 package com.example.bstapplication.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.FetchType;
-
-
-@Entity
 public class TreeNode {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private Integer value;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "left_id")
+    private int value;
     private TreeNode left;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "right_id")
     private TreeNode right;
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
+    // Constructors
+    public TreeNode() {}
+
+    public TreeNode(int value) {
+        this.value = value;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Integer getValue() {
+    // Getters and setters
+    public int getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(int value) {
         this.value = value;
     }
 
