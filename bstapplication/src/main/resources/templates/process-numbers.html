@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .node {
+            padding: 5px;
+            border: 1px solid black;
+            margin: 2px;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+        }
+        .children {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .left, .right {
+            margin: 0 20px;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Numbers</title>
+    <script>
+        function submitNumbers() {
+            var numbers = document.getElementById('numbers').value;
+            fetch('/process-numbers', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'numbers=' + encodeURIComponent(numbers),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+            });
+        }
+
+        function showPrevious() {
+            fetch('/previous-trees')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('previous-trees').textContent = JSON.stringify(data, null, 2);
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>Enter Numbers</h1>
+    <form onsubmit="event.preventDefault(); submitNumbers();">
+        <label for="numbers">Numbers (comma separated):</label>
+        <input type="text" id="numbers" name="numbers" required>
+        <button type="submit">Submit</button>
+    </form>
+    <button onclick="showPrevious()">Show Previous</button>
+    <pre id="result"></pre>
+    <pre id="previous-trees"></pre>
+</body>
+</html>

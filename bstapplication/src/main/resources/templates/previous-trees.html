@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .node {
+            padding: 5px;
+            border: 1px solid black;
+            margin: 2px;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+        }
+        .children {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .left, .right {
+            margin: 0 20px;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previous Trees</title>
+    <script>
+        async function fetchPreviousTrees() {
+    try {
+        let response = await fetch('/previous-trees');
+        let data = await response.json();
+        console.log(data);
+        if (data.length === 0) {
+            document.getElementById('trees-list').innerHTML = 'No previous trees found.';
+        } else {
+            let list = '<ul>';
+            data.forEach(tree => {
+                // Parse the tree structure JSON string into an object and format it
+                let treeStructure = JSON.parse(tree.treeStructure);
+                let formattedTreeStructure = JSON.stringify(treeStructure, null, 2);
+                list += `<li>Numbers: ${tree.numbers}, Tree Structure: <pre>${formattedTreeStructure}</pre></li>`;
+            });
+            list += '</ul>';
+            document.getElementById('trees-list').innerHTML = list;
+        }
+    } catch (error) {
+        console.error('Error fetching previous trees:', error);
+        document.getElementById('trees-list').innerHTML = 'Error fetching previous trees.';
+    }
+}
+
+
+        window.onload = fetchPreviousTrees;
+    </script>
+</head>
+<body>
+    <h1>Previous Trees</h1>
+    <div id="trees-list">Loading...</div>
+</body>
+</html>
